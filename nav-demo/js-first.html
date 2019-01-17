@@ -24,17 +24,16 @@
         var hash = {
             'q':'qq.com',
             'w':'weibo.com',
-            'e':'eleme.com',
-            'r':'renren.com',
-            't':'tianya.com',
+            'e':'ems.com',
+            'r':'hitachi.com',
+            't':'taobao.com',
             'y':'yahoo.com',
-            'u':'uc.com',
+            'u':'ui.cn',
             'i':'iqiyi.com',
             'o':'opera.com',
             'p': undefined,
-            'a':'acfun.tv',
-            's':'sohu.com',
             'z':'zhihu.com',
+            'b':'bilibili.com',
             'm':'www.mcdonalds.com.cn'
         }
         var  hashInlocalStorage = JSON.parse(localStorage.getItem('zzz')||'null')
@@ -49,16 +48,37 @@
             index2 = 0
             while(index2<row.length){
             kbd001 = document.createElement('kbd')
-            kbd001.textContent = row[index2]
+            span = document.createElement('span')
+            span.textContent = row[index2]
+            span.className = 'text'
+            kbd001.appendChild(span)
+            kbd001.className = 'key'
             button001 = document.createElement('button')
             button001.textContent = '编辑'
             button001.id = row[index2]
+            img001 = document.createElement('img')
+            if(hash[row[index2]]){
+                img001.src = 'http://'+ hash[row[index2]]+'/favicon.ico'
+            }else{
+                img001.src = './p1.jpg'
+            }
+            img001.onerror = function(xxx){
+                xxx.target.src = './p1.jpg'
+            }
+            
             button001.onclick = function(xxx){
-            key = xxx.target.id
+            button = xxx['target']  
+            img2 = button.previousSibling
+            key = button['id']
             x = prompt('给我一个网址')
             hash[key] = x
+            img2.src = 'http://' + x + '/favicon.ico'
+            img2.onerror = function(xxx){
+                xxx.target.src = './p1.jpg'
+            }
             localStorage.setItem('zzz',JSON.stringify(hash))
             }
+            kbd001.appendChild(img001)
             kbd001.appendChild(button001)
             div001.appendChild(kbd001)
             index2 = index2+1
@@ -66,7 +86,7 @@
             
             index = index+1
         }
-        document.onkeypress = function(xxx){
+            document.onkeypress = function(xxx){
             key = xxx['key']
             website = hash[key]
             console.log(website)
